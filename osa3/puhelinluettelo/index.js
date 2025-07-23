@@ -10,10 +10,6 @@ app.use(express.json())
 
 const Person = require('./models/person')
 
-const password = process.argv[2]
-const url = `mongodb+srv://fullstack:${password}@cluster0.wyrqp9g.mongodb.net/phonebook?retryWrites=true&w=majority&appName=Cluster0`
-
-
 morgan.token('body', (request) => {
     return request.method === 'POST' ? JSON.stringify(request.body) : ''
 })

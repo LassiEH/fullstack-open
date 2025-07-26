@@ -17,7 +17,6 @@ app.use(morgan(':method :url :status :res[content-length] - :response-time ms :b
 
 
 const errorHandler = (error, request, response, next) => {
-  console.error(error.name)    
   console.error(error.message)
 
   if (error.name === 'CastError') {
@@ -28,7 +27,11 @@ const errorHandler = (error, request, response, next) => {
     return response.status(400).json({ error: error.message })
   }
 
-  return response.status(500).json({ error: 'Internal server error' })
+  if (error.number === 'ValidationError') {
+    return response.status(400).json({ error: error.message })
+  }
+
+  next(error)
 }
 
 
@@ -112,7 +115,7 @@ app.put('/api/persons/:id', (request, response, next) => {
 })
 
 
-app.post('/api/persons', (request, response) => {
+app.post('/api/persons', (request, response, next) => {
     const body = request.body
     const nameInList = persons.find(n => n.name === body.name)
 
@@ -137,6 +140,7 @@ app.post('/api/persons', (request, response) => {
     person.save().then(savedPerson => {
         response.json(savedPerson)
     })
+    .catch((error) => next(error))
 })
 
 app.use(errorHandler)

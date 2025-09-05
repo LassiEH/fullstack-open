@@ -1,0 +1,15 @@
+.notification {
+  background: grey;
+  border-radius: 5px;
+  padding: 10px;
+  font-size: 30px;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.blogItem {
+  padding-top: 10px;
+  border: solid;
+  border-width: 0.5px;
+  margin-bottom: 10px;
+}
